@@ -1,34 +1,29 @@
-Problem Statement:
-You are provided with a nested JSON file that contains customer purchase details. The JSON contains an array of products for each customer along with details such as product name and price.
+# Problem Statement
 
+You are provided with a nested JSON that contains customer purchase details. The JSON contains an array of products for each customer along with details such as product name and price.
 
+Your task is to flatten the JSON structure and extract the relevant fields: `customer_id`, `order_id`, `product_name`, and `product_price`. You will need to explode the array of products so that each product becomes a separate row.
 
-Your task is to flatten the JSON structure and extract the relevant fields: customer_id, order_id, product_name, and product_price. You will need to explode the array of products so that each product becomes a separate row.
+After flattening and exploding the data, use `display(df)` to show the final DataFrame.
 
+Details about JSON data source in Spark can be found [here](https://spark.apache.org/docs/latest/sql-data-sources-json.html).
 
+## Input
 
-After flattening and exploding the data, use display(df) to show the final DataFrame.
+- **File Path**: `/datasets/orders.json`
+- **Schema**:
+  - `customer_id` (String)
+  - `order_id` (String)
+  - `products` (Array of Structs)
+    - `product_name` (String)
+    - `product_price` (Integer)
 
+### Example Input (JSON):
 
-
-Details about JSON data source in Spark can be found here.
-
-
-
-Input:
-File Path: /datasets/orders.json
-
-Schema:
-
-customer_id (String)
-order_id (String)
-products (Array of Structs): product_name (String), product_price (Integer)
-
-
-Example Input (JSON):
+```json
 [
   {
-    "customer_id": "C001",
+    "customer_id": "C0001",
     "order_id": "O1001",
     "products": [
       {
@@ -42,7 +37,7 @@ Example Input (JSON):
     ]
   },
   {
-    "customer_id": "C002",
+    "customer_id": "C0002",
     "order_id": "O1002",
     "products": [
       {
@@ -52,30 +47,31 @@ Example Input (JSON):
     ]
   }
 ]
+```
 
-Output
-Schema:
+## Output
 
-customer_id (String)
-order_id (String)
-product_name (String)
-product_price (Integer)
-Example Output:
+- **Schema**:
+  - `customer_id` (String)
+  - `order_id` (String)
+  - `product_name` (String)
+  - `product_price` (Integer)
 
-Explanation:
-The input JSON is nested, with each customer having multiple products in an array.
-The task requires you to explode this array, flattening the nested structure so that each product corresponds to a separate row.
-The output contains four columns: customer_id, order_id, product_name, and product_price.
+### Example Output:
+   customer_id | order_id | product_name | product_price |
+ |-------------|----------|--------------|---------------|
+ | C0001       | O1001    | Laptop       | 1500          |
+ | C0001       | O1001    | Mouse        | 25            |
+ | C0002       | O1002    | Keyboard     | 75            |
 
+## Explanation:
+- The input JSON is nested, with each customer having multiple products in an array.
+- This task requires you to explode this array, flattening the nested structure so that each product corresponds to a separate row.
+- The output contains four columns: `customer_id`, `order_id`, `product_name`, and `product_price`.
 
-Files:
-Input: /datasets/orders.json (in JSON format)
-Output: Use display(df) to show the final DataFrame.
+## Files:
+- **Input**: /datasets/orders.json (in JSON format)
+- **Output**: Use display(df) to show the final DataFrame.
 
-
-How To Submit
-Open this link: https://www.sparkplayground.com/pyspark-coding-interview-questions/load-and-transform-data-json.
-Complete the exercise until the solution is correct.
-Create a repository in your personal GitHub account, name it after the exercise, and paste your solution there.
-Enter your response in the 'Submit your Answer' textbox on the platform, include the GitHub repository link in the designated box, and click 'Submit.'
-Once submitted, the main page will confirm that the Take Home Project is complete.
+## Tip:
+Look into multiline JSON files if you're having trouble reading the JSON file.
